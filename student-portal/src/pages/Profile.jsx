@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "../styles/profile.css";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Profile() {
 
@@ -17,7 +18,7 @@ function Profile() {
       return;
     }
 
-    fetch(`http://127.0.0.1:8000/student/${email}`)
+    fetch(`${API_URL}/student/${email}`)
       .then(res => res.json())
       .then(data => setStudent(data));
 
@@ -40,7 +41,7 @@ function Profile() {
             className="profile-big-photo"
             src={
               student.photo
-                ? `http://127.0.0.1:8000/uploads/${student.photo}`
+                ? `${API_URL}/uploads/${student.photo}`
                 : "https://i.ibb.co/2kR5zq0/default-avatar.png"
             }
             alt="profile"

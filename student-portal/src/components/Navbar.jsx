@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import "./Navbar.css"
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Navbar() {
 
@@ -19,7 +20,7 @@ function Navbar() {
       return
     }
 
-    fetch(`http://127.0.0.1:8000/student/${email}`)
+    fetch(`${API_URL}/student/${email}`)
       .then(res => res.json())
       .then(data => setStudent(data))
   }, [])
@@ -75,7 +76,7 @@ function Navbar() {
               className="profile-img"
               src={
                 student?.photo
-                  ? `http://127.0.0.1:8000/uploads/${student.photo}`
+                  ? `${API_URL}/uploads/${student.photo}`
                   : "https://i.ibb.co/2kR5zq0/default-avatar.png"
               }
               alt="profile"

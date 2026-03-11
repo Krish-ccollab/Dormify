@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/complaints.css";
 import toast from "react-hot-toast";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Complaints() {
 
@@ -21,15 +22,15 @@ function Complaints() {
 
     if (!email) return;
 
-    fetch(`http://127.0.0.1:8000/complaint/student/${email}/pending`)
+    fetch(`${API_URL}/complaint/student/${email}/pending`)
       .then(res => res.json())
       .then(data => setPending(data));
 
-    fetch(`http://127.0.0.1:8000/complaint/student/${email}/working`)
+    fetch(`${API_URL}/complaint/student/${email}/working`)
       .then(res => res.json())
       .then(data => setWorking(data));
 
-    fetch(`http://127.0.0.1:8000/complaint/student/${email}/completed`)
+    fetch(`${API_URL}/complaint/student/${email}/completed`)
       .then(res => res.json())
       .then(data => setCompleted(data));
 
@@ -43,7 +44,7 @@ function Complaints() {
       return;
     }
 
-    await fetch("http://127.0.0.1:8000/complaint/add", {
+    await fetch(`${API_URL}/complaint/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -176,7 +177,7 @@ function Complaints() {
               <button
                 className="solve-btn"
                 onClick={async () => {
-                  await fetch(`http://127.0.0.1:8000/complaint/student-complete/${c._id}`, {
+                  await fetch(`${API_URL}/complaint/student-complete/${c._id}`, {
                     method: "POST"
                   });
                   // alert("Marked completed");

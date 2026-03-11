@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../styles/register.css";
 import axios from "axios";
 import toast from "react-hot-toast";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Register() {
 
@@ -53,7 +54,7 @@ function Register() {
     if (!form.email) return alert("Enter email first");
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/send-otp", {
+      const res = await axios.post(`${API_URL}/send-otp`, {
         email: form.email
       });
 
@@ -70,7 +71,7 @@ function Register() {
     if (enteredOtp !== serverOtp) return alert("OTP not matched");
     if (form.password !== form.confirm) return alert("Passwords do not match");
 
-    await axios.post("http://127.0.0.1:8000/register", {
+    await axios.post(`${API_URL}/register`, {
       email: form.email,
       password: form.password,
       data: form
@@ -80,7 +81,7 @@ function Register() {
       const fd = new FormData();
       fd.append("file", profilePhoto);
 
-      await fetch(`http://127.0.0.1:8000/upload-photo/${form.email}`, {
+      await fetch(`${API_URL}/upload-photo/${form.email}`, {
         method: "POST",
         body: fd
       });

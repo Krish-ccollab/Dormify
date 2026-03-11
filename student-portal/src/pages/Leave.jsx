@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/leave.css";
 import toast from "react-hot-toast";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Leave() {
 
@@ -21,7 +22,7 @@ function Leave() {
   useEffect(() => {
     if (!email) return;
 
-    fetch(`http://127.0.0.1:8000/student/leaves/${email}`)
+    fetch(`${API_URL}/student/leaves/${email}`)
       .then(res => res.json())
       .then(data => setLeaves(data));
   }, [tab]);
@@ -33,7 +34,7 @@ function Leave() {
       return;
     }
 
-    await fetch("http://127.0.0.1:8000/leave/apply", {
+    await fetch(`${API_URL}/leave/apply`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

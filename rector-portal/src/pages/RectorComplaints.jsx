@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import "../styles/rectorComplaints.css";
 import toast from "react-hot-toast";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function RectorComplaints() {
 
@@ -16,17 +17,17 @@ function RectorComplaints() {
         async function load() {
 
             if (tab === "pending") {
-                const res = await fetch("http://127.0.0.1:8000/complaint/rector/pending");
+                const res = await fetch(`${API_URL}/complaint/rector/pending`);
                 setPending(await res.json());
             }
 
             if (tab === "working") {
-                const res = await fetch("http://127.0.0.1:8000/complaint/rector/working");
+                const res = await fetch(`${API_URL}/complaint/rector/working`);
                 setWorking(await res.json());
             }
 
             if (tab === "completed") {
-                const res = await fetch("http://127.0.0.1:8000/complaint/rector/completed");
+                const res = await fetch(`${API_URL}/complaint/rector/completed`);
                 setCompleted(await res.json());
             }
         }
@@ -37,14 +38,14 @@ function RectorComplaints() {
 
 
     async function startWork(id) {
-        await fetch(`http://127.0.0.1:8000/complaint/start/${id}`, { method: "POST" });
+        await fetch(`${API_URL}/complaint/start/${id}`, { method: "POST" });
         // alert("Moved to Working 🚧");
         toast.success("Moved to Working 🚧");
         setTab("working");
     }
 
     async function completeWork(id) {
-        await fetch(`http://127.0.0.1:8000/complaint/rector-complete/${id}`, { method: "POST" });
+        await fetch(`${API_URL}/complaint/rector-complete/${id}`, { method: "POST" });
         // alert("Complaint Completed ✔");
         toast.success("Complaint Completed ✔");
         setTab("completed");
@@ -57,7 +58,7 @@ function RectorComplaints() {
 
         useEffect(() => {
             async function loadStudent() {
-                const res = await fetch(`http://127.0.0.1:8000/student/${c.email}`);
+                const res = await fetch(`${API_URL}/student/${c.email}`);
                 setStu(await res.json());
             }
 

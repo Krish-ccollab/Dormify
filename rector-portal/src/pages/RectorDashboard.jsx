@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import "../styles/rectorDashboard.css";
 import toast from "react-hot-toast";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function RectorDashboard() {
 
   const [totalStudents, setTotalStudents] = useState(0);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/rector/active-students")
+    fetch(`${API_URL}/rector/active-students`)
       .then(res => res.json())
       .then(data => setTotalStudents(data.length));
   }, []);

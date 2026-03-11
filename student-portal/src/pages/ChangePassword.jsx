@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/changePassword.css";
 import toast from "react-hot-toast";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function ChangePassword() {
 
@@ -37,7 +38,7 @@ function ChangePassword() {
             return;
         }
 
-        const res = await fetch("http://127.0.0.1:8000/student/change-password", {
+        const res = await fetch(`${API_URL}/student/change-password`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

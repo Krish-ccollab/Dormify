@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import Navbar from "../components/Navbar"
 import "../styles/studentDetails.css"
 import toast from "react-hot-toast";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function StudentDetails() {
 
@@ -18,7 +19,7 @@ function StudentDetails() {
     const [bed, setBed] = useState("")
 
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/rector/pending-students")
+        fetch(`${API_URL}/rector/pending-students`)
             .then(res => res.json())
             .then(data => {
                 const found = data.find(s => s._id === id)
@@ -27,14 +28,14 @@ function StudentDetails() {
     }, [])
 
     async function approve() {
-        await fetch(`http://127.0.0.1:8000/rector/approve/${student.email}`, { method: "POST" })
+        await fetch(`${API_URL}/rector/approve/${student.email}`, { method: "POST" })
         // alert("Approved ✔")
         toast.success("Approved ✔");
         navigate("/students")
     }
 
     async function reject() {
-        await fetch(`http://127.0.0.1:8000/rector/reject/${student.email}`, { method: "POST" })
+        await fetch(`${API_URL}/rector/reject/${student.email}`, { method: "POST" })
         // alert("Rejected ❌")
         toast.success("Rejected ❌");
         navigate("/students")
@@ -43,7 +44,7 @@ function StudentDetails() {
     async function assignRoom() {
 
         const res = await fetch(
-            `http://127.0.0.1:8000/rector/assign-room/${student.email}`,
+            `${API_URL}/rector/assign-room/${student.email}`,
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -78,7 +79,7 @@ function StudentDetails() {
                     <img
                         src={
                             student.photo
-                                ? `http://127.0.0.1:8000/uploads/${student.photo}`
+                                ? `${API_URL}/uploads/${student.photo}`
                                 : "https://i.ibb.co/2kR5zq0/default-avatar.png"
                         }
                         alt="profile"

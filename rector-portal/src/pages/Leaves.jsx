@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import "../styles/Leaves.css";
 import toast from "react-hot-toast";
+const API_URL = import.meta.env.VITE_API_URL;
 
 
 function Leaves() {
@@ -16,17 +17,17 @@ function Leaves() {
         async function load() {
 
             if (tab === "pending") {
-                const res = await fetch("http://127.0.0.1:8000/rector/leaves/pending");
+                const res = await fetch(`${API_URL}/rector/leaves/pending`);
                 setPending(await res.json());
             }
 
             if (tab === "approved") {
-                const res = await fetch("http://127.0.0.1:8000/rector/leaves/approved");
+                const res = await fetch(`${API_URL}/rector/leaves/approved`);
                 setApproved(await res.json());
             }
 
             if (tab === "rejected") {
-                const res = await fetch("http://127.0.0.1:8000/rector/leaves/rejected");
+                const res = await fetch(`${API_URL}/rector/leaves/rejected`);
                 setRejected(await res.json());
             }
         }
@@ -37,14 +38,14 @@ function Leaves() {
 
 
     async function approve(id) {
-        await fetch(`http://127.0.0.1:8000/rector/leaves/approve/${id}`, { method: "POST" });
+        await fetch(`${API_URL}/rector/leaves/approve/${id}`, { method: "POST" });
         // alert("Leave Approved ✔");
         toast.success("Leave Approved ✔");
         setTab("approved");
     }
 
     async function reject(id) {
-        await fetch(`http://127.0.0.1:8000/rector/leaves/reject/${id}`, { method: "POST" });
+        await fetch(`${API_URL}/rector/leaves/reject/${id}`, { method: "POST" });
         // alert("Leave Rejected ❌");
         toast.success("Leave Rejected ❌");
         setTab("rejected");

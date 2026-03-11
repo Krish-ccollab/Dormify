@@ -3,6 +3,7 @@ import "../styles/students.css";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Students() {
 
@@ -20,19 +21,19 @@ function Students() {
     useEffect(() => {
 
         if (tab === "request") {
-            fetch("http://127.0.0.1:8000/rector/pending-students")
+            fetch(`${API_URL}/rector/pending-students`)
                 .then(res => res.json())
                 .then(data => setRequests(data));
         }
 
         if (tab === "active") {
-            fetch("http://127.0.0.1:8000/rector/active-students")
+            fetch(`${API_URL}/rector/active-students`)
                 .then(res => res.json())
                 .then(data => setActiveStudents(data));
         }
 
         if (tab === "old") {
-            fetch("http://127.0.0.1:8000/rector/old-students")
+            fetch(`${API_URL}/rector/old-students`)
                 .then(res => res.json())
                 .then(data => setOldStudents(data));
         }
@@ -40,7 +41,7 @@ function Students() {
     }, [tab]);
 
     async function moveToOld(email) {
-        await fetch(`http://127.0.0.1:8000/rector/move-old/${email}`, {
+        await fetch(`${API_URL}/rector/move-old/${email}`, {
             method: "POST"
         });
 

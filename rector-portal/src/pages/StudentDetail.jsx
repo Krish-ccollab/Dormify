@@ -2,6 +2,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "../styles/StudentDetail.css";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function StudentDetail() {
 
@@ -11,7 +12,7 @@ function StudentDetail() {
   const [student, setStudent] = useState(null);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/student-by-id/${id}`)
+    fetch(`${API_URL}/student-by-id/${id}`)
       .then(res => res.json())
       .then(data => setStudent(data));
   }, []);
@@ -37,7 +38,7 @@ function StudentDetail() {
         <img
           src={
             student.photo
-              ? `http://127.0.0.1:8000/uploads/${student.photo}`
+              ? `${API_URL}/uploads/${student.photo}`
               : "https://i.ibb.co/2kR5zq0/default-avatar.png"
           }
           alt="profile"

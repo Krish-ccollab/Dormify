@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "../styles/dashboard.css"
 import toast from "react-hot-toast";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Dashboard() {
 
@@ -18,11 +19,11 @@ function Dashboard() {
       return
     }
 
-    fetch(`http://127.0.0.1:8000/student/${email}`)
+    fetch(`${API_URL}/student/${email}`)
       .then(res => res.json())
       .then(data => setStudent(data))
 
-    fetch("http://127.0.0.1:8000/mess/today")
+    fetch(`${API_URL}/mess/today`)
       .then(res => res.json())
       .then(data => setMenu(data))
 
@@ -42,7 +43,7 @@ function Dashboard() {
           className="dash-avatar"
           src={
             student?.photo
-              ? `http://127.0.0.1:8000/uploads/${student.photo}`
+              ? `${API_URL}/uploads/${student.photo}`
               : "https://i.ibb.co/2kR5zq0/default-avatar.png"
           }
           alt="profile"

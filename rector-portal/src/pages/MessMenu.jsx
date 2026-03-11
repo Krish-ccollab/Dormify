@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import "../styles/mess.css";
 import toast from "react-hot-toast";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function MessMenu() {
 
@@ -10,7 +11,7 @@ function MessMenu() {
   const [dinner, setDinner] = useState("");
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/mess/today")
+    fetch(`${API_URL}/mess/today`)
       .then(res => res.json())
       .then(data => {
         setBreakfast(data.breakfast || "");
@@ -21,7 +22,7 @@ function MessMenu() {
 
   async function saveMenu() {
 
-    await fetch("http://127.0.0.1:8000/rector/mess/save", {
+    await fetch(`${API_URL}/rector/mess/save`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ breakfast, lunch, dinner })
