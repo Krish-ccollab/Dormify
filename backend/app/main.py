@@ -11,6 +11,8 @@ import os
 import random
 from bson import ObjectId
 
+# uvicorn app.main:app
+
 load_dotenv()
 
 app = FastAPI()
@@ -102,7 +104,7 @@ async def register_student(req: StudentRegister):
         "email": req.email,
         "password": req.password,
         "details": req.data,
-        "status": "pending"        # NEW important field
+        "status": "pending"
     })
 
     return {"message": "Registration completed, wait for rector approval"}
@@ -315,8 +317,6 @@ def student_completed(cid: str):
     return {"message": "Complaint closed by student"}
 
 # rector side
-# ---------- helper: attach student data ----------
-
 @app.get("/complaint/rector/pending")
 def rector_pending():
     data = list(complaints.find({"status": "pending"}))
@@ -409,8 +409,7 @@ def rector_complete(cid: str):
     )
     return {"message": "Marked completed by rector"}
 
-
-# helper function -> attach student info
+# attach student info
 def attach_student_details(l):
 
     stu = students.find_one(
@@ -533,7 +532,6 @@ def rector_approved_leaves():
         l["_id"] = str(l["_id"])
 
     return result
-
 
 
 # ---------------- REJECTED LEAVES LIST ----------------
