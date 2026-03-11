@@ -3,7 +3,7 @@
 import { useParams, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import Navbar from "../components/Navbar"
-import "../styles/studentDetails.css"
+import "../styles/StudentDetails.css"
 import toast from "react-hot-toast";
 const API_URL = import.meta.env.VITE_API_URL;
 
