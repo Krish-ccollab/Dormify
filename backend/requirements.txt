@@ -6,3 +6,4 @@ passlib
 bcrypt
 python-dotenv
 email-validator
+fastapi-mail
