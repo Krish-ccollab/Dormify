@@ -9,7 +9,7 @@ from datetime import datetime
 import os
 import random
 from bson import ObjectId
-from utility import send_otp, generate_otp
+from utils import send_otp, generate_otp
 
 # uvicorn app.main:app
 
