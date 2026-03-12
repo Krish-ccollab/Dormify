@@ -1,10 +1,7 @@
 import random
+import os
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from pydantic import EmailStr
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
 
 conf = ConnectionConfig(
     MAIL_USERNAME=os.getenv("EMAIL_USER"),
@@ -16,26 +13,28 @@ conf = ConnectionConfig(
     MAIL_STARTTLS=True,
     MAIL_SSL_TLS=False,
     USE_CREDENTIALS=True,
-    VALIDATE_CERTS=True,
+    VALIDATE_CERTS=True
 )
 
 async def send_otp(email: EmailStr, otp: str):
+
+    message = MessageSchema(
+        subject="Hostel Registration OTP",
+        recipients=[email],
+        body=f"Your OTP is: {otp}",
+        subtype="plain"
+    )
+
+    fm = FastMail(conf)
+
     try:
-        message = MessageSchema(
-            subject="Your Hostel Registration OTP",
-            recipients=[email],
-            body=f"Your OTP is: {otp}",
-            subtype="plain"
-        )
-
-        fm = FastMail(conf)
         await fm.send_message(message)
-
-        print("EMAIL SENT")
+        print("OTP EMAIL SENT")
 
     except Exception as e:
         print("SMTP ERROR:", e)
         raise e
+
 
 def generate_otp():
     return str(random.randint(100000, 999999))

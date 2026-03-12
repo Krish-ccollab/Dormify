@@ -3,13 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, EmailStr
 from pymongo import MongoClient
-from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from dotenv import load_dotenv
 from datetime import date
 from datetime import datetime
 import os
 import random
 from bson import ObjectId
+from utility import send_otp, generate_otp
 
 # uvicorn app.main:app
 
@@ -38,21 +38,6 @@ mess = db["mess"]
 complaints = db["complaints"]
 leaves = db["leaves"]
 
-
-# ---------------- Email SMTP ----------------
-conf = ConnectionConfig(
-    MAIL_USERNAME=os.getenv("EMAIL_USER"),
-    MAIL_PASSWORD=os.getenv("EMAIL_PASSWORD"),
-    MAIL_FROM=os.getenv("EMAIL_USER"),
-    MAIL_FROM_NAME="Dormify",
-    MAIL_PORT=587,
-    MAIL_SERVER="smtp.gmail.com",
-    MAIL_STARTTLS=True,
-    MAIL_SSL_TLS=False,
-    USE_CREDENTIALS=True,
-    VALIDATE_CERTS=True,
-)
-
 # ---------------- Models ----------------
 class EmailModel(BaseModel):
     email: EmailStr
@@ -71,21 +56,12 @@ def home():
 
 # ---------------- Send OTP ----------------
 @app.post("/send-otp")
-async def send_otp(body: EmailModel):
+async def send_otp_api(body: EmailModel):
 
-    otp = str(random.randint(100000, 999999))
-
-    message = MessageSchema(
-        subject="Hostel Portal OTP",
-        recipients=[body.email],
-        body=f"Your OTP is {otp}",
-        subtype="plain"
-    )
-
-    fm = FastMail(conf)
+    otp = generate_otp()
 
     try:
-        await fm.send_message(message)
+        await send_otp(body.email, otp)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
