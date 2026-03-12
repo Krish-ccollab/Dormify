@@ -68,7 +68,7 @@ function Register() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (enteredOtp !== serverOtp) return alert("OTP not matched");
+    // if (enteredOtp !== serverOtp) return alert("OTP not matched");
     if (form.password !== form.confirm) return alert("Passwords do not match");
 
     await axios.post(`${API_URL}/register`, {
