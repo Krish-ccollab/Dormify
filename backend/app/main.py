@@ -57,14 +57,13 @@ def home():
 # ---------------- Send OTP ----------------
 @app.post("/send-otp")
 async def send_otp_api(body: EmailModel):
-
     otp = generate_otp()
-
     try:
         await send_otp(body.email, otp)
     except Exception as e:
+        import traceback
+        print("OTP ERROR:", traceback.format_exc())  # ye add karo
         raise HTTPException(status_code=500, detail=str(e))
-
     return {"otp": otp, "message": "OTP sent"}
 
 
