@@ -16,18 +16,26 @@ conf = ConnectionConfig(
     MAIL_STARTTLS=True,
     MAIL_SSL_TLS=False,
     USE_CREDENTIALS=True,
-    VALIDATE_CERTS=True
+    VALIDATE_CERTS=True,
 )
 
 async def send_otp(email: EmailStr, otp: str):
-    message = MessageSchema(
-        subject="Your Hostel Registration OTP",
-        recipients=[email],
-        body=f"Your OTP is: {otp}",
-        subtype="plain"
-    )
-    fm = FastMail(conf)
-    await fm.send_message(message)
+    try:
+        message = MessageSchema(
+            subject="Your Hostel Registration OTP",
+            recipients=[email],
+            body=f"Your OTP is: {otp}",
+            subtype="plain"
+        )
+
+        fm = FastMail(conf)
+        await fm.send_message(message)
+
+        print("EMAIL SENT")
+
+    except Exception as e:
+        print("SMTP ERROR:", e)
+        raise e
 
 def generate_otp():
     return str(random.randint(100000, 999999))
